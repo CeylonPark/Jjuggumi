@@ -78,7 +78,7 @@ void move_random_mugunghwa(int p) { // p: player
 	int randnum = randint(1, 100);
 	
 	// 10% 확률로 움직이기
-	if (turn == G_WAIT && randnum > 10) {
+	if (turn != G_SAY && randnum > 10) {
 		return;
 	}
 
@@ -149,7 +149,7 @@ void move_tail_mugunghwa(int player, int nx, int ny) {
 void say_mugunghwa() {
 	static char s[] = "무궁화 꽃이 피었습니다.";
 	static int n_s = 23;
-	static int t[24] = { 1, 1, 800, 1, 800, 1, 1, 1000, 1, 1000, 1, 1, 200, 1, 200, 1, 200, 1, 200, 1, 200, 1, 1 };
+	static int t[24] = { 1, 1, 800, 1, 800, 1, 1, 1000, 1, 1000, 1, 1, 200, 1, 200, 1, 200, 1, 200, 1, 200, 1, 100 };
 
 	if (turn == G_SAY && tick % t[progress] == 0) {
 		if (progress == 0) {
@@ -185,7 +185,7 @@ void turn_mugunghwa(void) {
 	else if (turn == G_WAIT && tick % 3000 == 0) {
 		print_dead_player();
 		delete_dead_player();
-		if (n_alive < 2) {
+		if (n_alive < 2 || n_left == 0) {
 			state = false;
 		}
 		back_buf[6][1] = back_buf[7][1] = back_buf[8][1] = '#';
@@ -194,7 +194,7 @@ void turn_mugunghwa(void) {
 }
 
 void print_dead_player(void) {
-	char message[30] = "player ";
+	char message[40] = "player ";
 	int j = 7;
 	for (int i = 0; i < n_player; i++) {
 		if (cash_dead[i] == true && player[i] == false) {
