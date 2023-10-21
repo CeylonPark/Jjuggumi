@@ -22,7 +22,7 @@ void move_tail_mugunghwa(int, int, int);
 void say_mugunghwa(void);
 void turn_mugunghwa(void);
 void print_dead_player(void);
-void delete_player(void);
+void delete_dead_player(void);
 bool is_hidden(int, int);
 bool is_arrived(int);
 
@@ -119,6 +119,8 @@ void move_player_mugunghwa(int p, int dir) {
 	// Red Light에 움직일 때
 	if (turn == G_WAIT && (!is_hidden(px[p], py[p]) || !is_hidden(nx - dx[dir], ny - dx[dir]))) {
 		player[p] = false;
+		n_alive--;
+		n_left--;
 		cash_dead[p] = true;
 		return;
 	}
@@ -128,7 +130,6 @@ void move_player_mugunghwa(int p, int dir) {
 		back_buf[px[p]][py[p]] = ' ';
 		px[p] = py[p] = 0;
 		n_left--;
-
 		if (n_left == 0) {
 			state = false;
 		}
@@ -183,7 +184,7 @@ void turn_mugunghwa(void) {
 	}
 	else if (turn == G_WAIT && tick % 3000 == 0) {
 		print_dead_player();
-		delete_player(); // 죽은 플레이어 사라지게 하기
+		delete_dead_player();
 		if (n_alive < 2) {
 			state = false;
 		}
@@ -219,14 +220,13 @@ void print_dead_player(void) {
 	}
 }
 
-void delete_player(void) {
+// 죽은 플레이어 사라지게 하기
+void delete_dead_player(void) {
 	for (int i = 0; i < n_player; i++) {
 		if (cash_dead[i] == true) {
 			back_buf[px[i]][py[i]] = ' ';
 			px[i] = py[i] = 0;
 			cash_dead[i] = false;
-			n_left--;
-			n_alive--;
 		}
 	}
 }
