@@ -281,7 +281,7 @@ void mugunghwa(void) {
 
 		// 다른 플레이어 랜덤으로 움직임
 		for (int i = 1; i < n_player; i++) {
-			if (tick % 500 == 0) { //period[i]
+			if (tick % period[i] == 0) {
 				move_random_mugunghwa(i);
 			}
 		}
