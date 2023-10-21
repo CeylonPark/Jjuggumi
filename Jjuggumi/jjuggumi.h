@@ -16,7 +16,6 @@ void intro(void);
 // 미니게임
 void sample(void);
 void mugunghwa(void);
-//void mugunghwa(void);
 //void nightgame(void);
 //void juldarigi(void);
 //void jebi(void);
